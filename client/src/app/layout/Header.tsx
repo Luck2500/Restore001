@@ -18,7 +18,7 @@ export default function Header(props : any) {
                 aria-label="menu"
                 sx={{ mr: 2 }}
               >
-                <Switch defaultChecked onClick={props.handleMode} />
+                <Switch defaultChecked onClick={props.handleMode} color="default" />
               </IconButton>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Luck-Restor

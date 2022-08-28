@@ -62,6 +62,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseCors(MyAllowSpecificOrigins);
+
 app.MapControllers();
 
 
