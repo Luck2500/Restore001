@@ -1,4 +1,5 @@
 using API.Data;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.AddCors(options =>
 
 #endregion
 
+
 var app = builder.Build();
 
 #region //สร้างข้อมูลจ ำลอง Fake data
@@ -56,7 +58,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection();
+#region ส่ง error ไปให้Axios ตอนท ำ Interceptor
+app.UseMiddleware<ExceptionMiddleware>(); 
+#endregion
 
 app.UseRouting();
 
@@ -65,7 +69,6 @@ app.UseAuthorization();
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
-
 
 // app.Run();
 
