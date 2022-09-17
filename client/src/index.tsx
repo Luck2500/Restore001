@@ -1,18 +1,21 @@
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './app/layout/App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./app/layout/App";
+import reportWebVitals from "./reportWebVitals";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import { StoreProvider } from "./app/context/StoreContext";
 
 export const history = createBrowserHistory({ window });
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <HistoryRouter history={history}>
-    <App />
+    <StoreProvider>
+      <App />
+    </StoreProvider>
   </HistoryRouter>
 );
 
