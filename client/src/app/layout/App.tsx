@@ -18,6 +18,7 @@ import agent from "../api/agent";
 import { getCookie } from "../util/util";
 import LoadingComponent from "./LoadingComponent";
 import BasketPage from "../../features/basket/BasketPage";
+import CheckoutPage from "../../features/checkout/CheckoutPage";
 
 export default function App() {
   const { setBasket } = useStoreContext(); //ควบคุมสเตทด้วย React context to Centralize
@@ -65,6 +66,7 @@ export default function App() {
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/basket" element={<BasketPage />} />
             <Route path="/catalog/:id" element={<ProductDetails />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/server-error" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
