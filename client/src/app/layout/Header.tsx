@@ -6,7 +6,7 @@ import Switch from "@mui/material/Switch";
 import { Badge, IconButton, List, ListItem } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link, NavLink } from "react-router-dom";
-import { useStoreContext } from "../context/StoreContext";
+import { useAppSelector } from "../store/configureStor";
 
 const midLinks = [
   { title: "catalog", path: "/catalog" },
@@ -32,11 +32,11 @@ const navStyles = {
 };
 
 export default function Header(props: any) {
-  const { basket } = useStoreContext();
+  const { basket } = useAppSelector((state) => state.basket);
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <Box sx={{ flexGrow: 1, mb: 3 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar
           sx={{
@@ -48,7 +48,9 @@ export default function Header(props: any) {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Switch defaultChecked onClick={props.handleMode} color="default" />
 
-            <Typography variant="h6">Luck-Restor</Typography>
+            <IconButton component={Link} to="/">
+              <Typography variant="h6">Luck-Restor</Typography>
+            </IconButton>
           </Box>
 
           <List sx={{ display: "flex" }}>

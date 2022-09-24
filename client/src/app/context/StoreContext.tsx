@@ -1,11 +1,13 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { Basket } from "../models/Basket";
+
 interface StoreContextValue {
   basket: Basket | null;
   setBasket: (basket: Basket) => void;
   removeItem: (productId: number, quantity: number) => void;
 }
-//ก ำหนดค่ำไว้ก่อน(สร้ำงห้องครัวเปล่ำๆ)
+
+//ก ำหนดค่ำไว้ก่อน(สร้ำงห้องครัวเปล่าๆ)
 export const StoreContext = createContext<StoreContextValue | undefined>(
   undefined
 );
@@ -20,6 +22,7 @@ export function useStoreContext() {
 //1.สร้ำงสเตทไว้ภำยใน และน ำไปครอบ { children } ที่ต้องกำรใช้(Index.tsx)
 export function StoreProvider({ children }: PropsWithChildren<any>) {
   const [basket, setBasket] = useState<Basket | null>(null);
+
   function removeItem(productId: number, quantity: number) {
     if (!basket) return;
     const items = [...basket.items];
@@ -32,6 +35,7 @@ export function StoreProvider({ children }: PropsWithChildren<any>) {
       });
     }
   }
+
   return (
     //value แมบจับคู่กับ interface StoreContextValue
     // {children} ที่ถูกครอบจะสำมำรถเข้ำถึงค่ำของ value ได้

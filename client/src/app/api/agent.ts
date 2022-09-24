@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true
 
 const ResponseBody = (response: AxiosResponse) => response.data;
 
-const sleep = () => new Promise((_) => setTimeout(_, 350));
+const sleep = () => new Promise((_) => setTimeout(_, 500));
 
 axios.interceptors.response.use(
   async (response) => {
