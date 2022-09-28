@@ -2,10 +2,10 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { history } from "../..";
-
+import { PaginatedResponse } from "../models/pagination";
 
 axios.defaults.baseURL = "http://localhost:5001/api/";
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const ResponseBody = (response: AxiosResponse) => response.data;
 
@@ -14,6 +14,15 @@ const sleep = () => new Promise((_) => setTimeout(_, 500));
 axios.interceptors.response.use(
   async (response) => {
     await sleep();
+    const pagination = response.headers["pagination"]; //ส่งมำจำก ProductController
+    if (pagination) {
+      response.data = new PaginatedResponse(
+        response.data,
+        JSON.parse(pagination)
+      );
+      return response;
+    }
+
     return response;
   },
   (error: AxiosError) => {
@@ -42,7 +51,7 @@ axios.interceptors.response.use(
         toast.error(result.title);
         break;
       case 500:
-        history.push('/server-error',{state:data})
+        history.push("/server-error", { state: data });
         toast.error(result.title);
         break;
       default:
@@ -52,17 +61,17 @@ axios.interceptors.response.use(
   }
 );
 
-
-
 const requests = {
-  get: (url: string) => axios.get(url).then(ResponseBody),
-  post: (url: string,body:{}) => axios.post(url,body).then(ResponseBody),
+  get: (url: string, params?: URLSearchParams) =>
+    axios.get(url, { params }).then(ResponseBody),
+  post: (url: string, body: {}) => axios.post(url, body).then(ResponseBody),
   delete: (url: string) => axios.delete(url).then(ResponseBody),
 };
 
 const Catalog = {
-  list: () => requests.get("Products"),
+  list: (params: URLSearchParams) => requests.get("products", params),
   details: (id: number) => requests.get(`products/${id}`),
+  fetchFilters: () => requests.get("products/filters"),
 };
 
 const TestErrors = {
@@ -74,15 +83,17 @@ const TestErrors = {
 };
 
 const Basket = {
-  get :()=> requests.get('basket'),
-  addItem: (productId:number,quantity=1)=>requests.post(`basket?productId=${productId}&quantity=${quantity}`,{}),
-  removeItem: (productId:number,quantity=1)=>requests.delete(`basket?productId=${productId}&quantity=${quantity}`)
-}
+  get: () => requests.get("basket"),
+  addItem: (productId: number, quantity = 1) =>
+    requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+  removeItem: (productId: number, quantity = 1) =>
+    requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
+};
 
 const agent = {
   Catalog,
   TestErrors,
-  Basket
+  Basket,
 };
 
 export default agent;
