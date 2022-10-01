@@ -14,7 +14,7 @@ import agent from "../../app/api/agent";
 import BasketSummary from "./BasketSummary";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStor";
-import { addBasketItemAsync, removeBasketItemAsync, removeItem, setBasket } from "./basketSlice";
+import { addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
 
 export default function BasketPage() {
   const dispatch = useAppDispatch();
